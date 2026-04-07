@@ -77,10 +77,6 @@ async def say(interaction: discord.Interaction, message: str):
     else:
         await interaction.response.send_message(f"I am commanded to say this message. Anything that I'm about to say is out of my control. I've tried my best (not really) to blacklist the banned words. \n{message}")
 
-#@client.tree.command(name="steal", description="Steal a user's profile picture.")
-#async def steal(interaction: discord.Interaction):
-#    await interaction.response.send_message("https://cdn.discordapp.com/avatars/{0.id}/{0.avatar}.png?size=1024".format(user))
-
 
 
 client.run(f"{bot_token.token}")

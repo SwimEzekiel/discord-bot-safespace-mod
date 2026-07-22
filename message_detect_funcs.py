@@ -21,5 +21,3 @@ def new_banned_words(contents, file_name):
             contents.add(word)
             print("Banned word added to file.")
             word = input("Input new banned word: ")
-
-    

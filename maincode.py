@@ -1,5 +1,6 @@
 import discord
 import bot_token
+import message_detect_funcs
 
 from discord.ext import commands
 from discord import app_commands
@@ -13,8 +14,6 @@ with open("banned_words.csv", "r") as file:
     a_split = read_file.split(";")
     for i in a_split:
         banned_words.append(i)
-
-
 
 class Client(commands.Bot):
     async def on_ready(self):
@@ -40,9 +39,10 @@ class Client(commands.Bot):
 
         if message.author == self.user:
             return
-        
+
         if str.lower(message.content) in banned_words:
             if str(message.author) == "swimezekiel":
+                print("Since you're my developer, I am coded to not allow to say anything bad to you.")
                 return
             else:
                 await message.channel.send(f"do not say that, @{message.author}. I will mute you.")
@@ -50,7 +50,7 @@ class Client(commands.Bot):
 
         elif message.content == "I'm giving birth":
                 await message.channel.send(f"@ everyone PLEASE DO NOT give birth in the voice chats. i can't believe i have to say this (and it is quite embarrassing) but yesterday someone gave birth in channel, as much as we are honored that a child was birthed in this server, we also believe in privacy and children's protection on the internet! because of this we have disabled the voice chats for now.")
-        
+
 
     async def on_message_delete(self, message):
         if message.author == self.user:
@@ -65,7 +65,7 @@ class Client(commands.Bot):
 guild_id = discord.Object(id=1117069265602879648)
 
 intents = discord.Intents.default()
-intents.message_content = True 
+intents.message_content = True
 client = Client(command_prefix=cmd_prefix, intents = intents)
 
 @client.tree.command(name="say", description="Make safespace mod say something!", guild=guild_id)
@@ -78,6 +78,16 @@ async def say(interaction: discord.Interaction, message: str):
         await interaction.response.send_message(f"I am commanded to say this message. Anything that I'm about to say is out of my control. I've tried my best (not really) to blacklist the banned words. \n{message}")
 
 
+@client.tree.command(name="compliment", description = "Make safespace mod compliment what you say!!", guild=guild_id)
+async def compliment(interaction: discord.Interaction, message: str):
+    await interaction.response.send_message(f'the way you said this statement "{message}" is so good!')
+
+@client.tree.command(name="BanWord", description = f"add a word to the banned list (currently no persistence)", guild=guild_id)
+async def BanWord(interaction: discord.Interaction, message:str):
+    banned_words.append(f"{message}")
+    await interaction.response.send_message(f"The word \"{message}\" is now banned in this server.")
+
+
+
 
 client.run(f"{bot_token.token}")
-
